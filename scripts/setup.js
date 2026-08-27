@@ -8,15 +8,15 @@ console.log('🚀 Setting up Travel Tour App...\n');
 
 // Check if .env.local exists
 const envPath = path.join(process.cwd(), '.env.local');
-const envExamplePath = path.join(process.cwd(), 'env.example');
+const envExamplePath = path.join(process.cwd(), '.env.example');
 
 if (!fs.existsSync(envPath)) {
   if (fs.existsSync(envExamplePath)) {
-    console.log('📝 Creating .env.local from env.example...');
+    console.log('📝 Creating .env.local from .env.example...');
     fs.copyFileSync(envExamplePath, envPath);
     console.log('✅ .env.local created! Please update with your API keys.\n');
   } else {
-    console.log('⚠️  env.example not found. Please create .env.local manually.\n');
+    console.log('⚠️  .env.example not found. Please create .env.local manually.\n');
   }
 } else {
   console.log('✅ .env.local already exists.\n');

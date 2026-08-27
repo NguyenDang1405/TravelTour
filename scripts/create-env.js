@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Script to create .env file from env.example
+ * Script to create .env file from .env.example
  * Usage: node scripts/create-env.js
  */
 
@@ -19,11 +19,11 @@ function question(query) {
 }
 
 async function createEnvFile() {
-  console.log('📝 Creating .env file from env.example...\n');
+  console.log('📝 Creating .env file from .env.example...\n');
 
   const envPath = path.join(process.cwd(), '.env');
   const envLocalPath = path.join(process.cwd(), '.env.local');
-  const envExamplePath = path.join(process.cwd(), 'env.example');
+  const envExamplePath = path.join(process.cwd(), '.env.example');
 
   // Check if .env or .env.local already exists
   if (fs.existsSync(envPath)) {
@@ -40,18 +40,18 @@ async function createEnvFile() {
   }
 
   if (!fs.existsSync(envExamplePath)) {
-    console.error('❌ env.example not found!');
+    console.error('❌ .env.example not found!');
     rl.close();
     process.exit(1);
   }
 
-  // Read env.example
+  // Read .env.example
   const envExample = fs.readFileSync(envExamplePath, 'utf8');
   
   // Create .env with placeholders
   fs.writeFileSync(envPath, envExample);
   
-  console.log('✅ .env file created from env.example!\n');
+  console.log('✅ .env file created from .env.example!\n');
   console.log('📋 Next steps:');
   console.log('   1. Open .env file and fill in your API keys');
   console.log('   2. For VNPay Return URL, use ngrok URL (see NGROK_SETUP_GUIDE.md)');

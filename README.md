@@ -66,30 +66,28 @@ npm install @google/generative-ai
 
 ### 3. Setup environment variables
 
-#### Frontend (.env.local)
-Tạo file `.env.local` trong root directory:
-```env
-# Clerk Authentication
-EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
+#### Khởi tạo file environment (.env / .env.local)
+Bạn có thể tự động tạo file cấu hình bằng cách chạy script:
+```bash
+# Tạo file .env từ env.example
+node scripts/create-env.js
 
-# Convex Backend
-EXPO_PUBLIC_CONVEX_URL=your_convex_deployment_url
+# Hoặc chạy script setup tự động cài đặt dependencies và cấu hình môi trường
+npm run setup
 ```
+Hoặc copy file [.env.example](file:///d:/Ky_8/CD2/travel-tour/.env.example) thành `.env` (hoặc `.env.local`) và điền các API keys của bạn.
 
-#### Backend (Convex Dashboard) ⚠️ QUAN TRỌNG
-**Các API keys phải được set trong Convex Dashboard**, không phải trong `.env.local`:
+#### Cấu hình API Keys và Biến Môi trường
+Các biến môi trường chính bao gồm:
+- **Clerk Authentication**: `EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- **Convex Backend**: `CONVEX_DEPLOYMENT`, `EXPO_PUBLIC_CONVEX_URL`
+- **AI & External Services**: `GEMINI_API_KEY`, `OPENWEATHER_API_KEY`, `DUFFEL_API_TOKEN`, `FOURSQUARE_API_KEY`, `GEOAPIFY_API_KEY`
+- **Payment (VNPAY)**: `VNPAY_TMN_CODE`, `VNPAY_HASH_SECRET`, `EXPO_PUBLIC_VNPAY_RETURN_URL`
 
-1. Truy cập: https://dashboard.convex.dev → Chọn project → Settings → Environment Variables
-2. Set các variables sau:
-   - `GEMINI_API_KEY` - Lấy từ https://aistudio.google.com/apikey
-   - `AMADEUS_API_KEY` - (Optional) Cho hotel/flight search
-   - `AMADEUS_API_SECRET` - (Optional) Cho hotel/flight search
-   - `FOURSQUARE_API_KEY` - (Optional) Cho attractions/restaurants
-   - `OPENWEATHER_API_KEY` - (Optional) Cho weather info
-   - `VNPAY_TMN_CODE` - (Optional) Cho payment
-   - `VNPAY_HASH_SECRET` - (Optional) Cho payment
+> [!IMPORTANT]
+> **Đối với Convex Backend**: Các API keys (như `GEMINI_API_KEY`, `OPENWEATHER_API_KEY`, `FOURSQUARE_API_KEY`, `DUFFEL_API_TOKEN`, `GEOAPIFY_API_KEY`...) cần phải được cấu hình trên Convex Dashboard tại:
+> https://dashboard.convex.dev → Chọn project → Settings → Environment Variables.
 
-**Xem chi tiết**: [CONVEX_ENV_SETUP.md](./CONVEX_ENV_SETUP.md)
 
 ### 4. Start development servers
 ```bash
