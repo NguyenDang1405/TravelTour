@@ -94,8 +94,11 @@ Các biến môi trường chính bao gồm:
 # Terminal 1: Start Convex backend
 npm run dev:be
 
-# Terminal 2: Start Expo frontend
+# Terminal 2: Start Expo frontend with ngrok
 npm run dev:fe
+
+# Terminal 3: Start Expo frontend (alternative)
+npm start
 ```
 
 ### 5. Run on device

@@ -5,6 +5,17 @@ import { action } from "./_generated/server";
 import { api } from "./_generated/api";
 import { sendMessageToAI, generateItinerary } from "../services/aiService";
 
+// Helper to clean messages of extra properties (like recommendations) before saving to db
+const cleanMessagesForDb = (messages: any[]) => {
+  return messages.map(({ id, text, isUser, timestamp, metadata }) => {
+    const clean: any = { id, text, isUser, timestamp };
+    if (metadata !== undefined) {
+      clean.metadata = metadata;
+    }
+    return clean;
+  });
+};
+
 // Send message to AI (action with Node.js support)
 export const sendMessage = action({
   args: {
@@ -59,7 +70,7 @@ export const sendMessage = action({
     // Update conversation with user message
     await ctx.runMutation(api.ai.patchConversation, {
       conversationId: args.conversationId,
-      messages: updatedMessages,
+      messages: cleanMessagesForDb(updatedMessages),
       updatedAt: Date.now(),
     });
 
@@ -183,6 +194,7 @@ export const sendMessage = action({
 
     // Create recommendations if any
     const recommendationIds: any[] = [];
+    const savedRecommendations: any[] = [];
     if (aiResponse.recommendations && aiResponse.recommendations.length > 0) {
       for (const rec of aiResponse.recommendations) {
         const recId = await ctx.runMutation(api.ai.insertRecommendation, {
@@ -198,6 +210,10 @@ export const sendMessage = action({
           createdAt: Date.now(),
         });
         recommendationIds.push(recId);
+        savedRecommendations.push({
+          ...rec,
+          id: recId,
+        });
       }
     }
 
@@ -217,14 +233,14 @@ export const sendMessage = action({
     // Update conversation with AI response and recommendations
     await ctx.runMutation(api.ai.patchConversation, {
       conversationId: args.conversationId,
-      messages: finalMessages,
+      messages: cleanMessagesForDb(finalMessages),
       recommendations: [...conversation.recommendations, ...recommendationIds],
       updatedAt: Date.now(),
     });
 
     return {
       message: aiMessage,
-      recommendations: aiResponse.recommendations || [],
+      recommendations: savedRecommendations,
     };
   },
 });

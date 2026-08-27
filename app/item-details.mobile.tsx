@@ -35,7 +35,6 @@ export default function ItemDetailsMobile() {
     type?: string;
     itemId?: string;
     itemType?: string;
-    itemType?: string;
     location?: string;
     name?: string;
     price?: string;

@@ -35,12 +35,14 @@ export default function PaymentCallbackMobile() {
       try {
         // Verify payment with Convex
         const result = await verifyCallback({
-          vnp_ResponseCode: responseCode,
-          vnp_TransactionStatus: transactionStatus,
-          vnp_TxnRef: txnRef,
-          vnp_Amount: amount || '0',
-          vnp_SecureHash: secureHash || '',
-          vnp_OrderInfo: orderInfo || '',
+          vnp_Params: {
+            vnp_ResponseCode: responseCode,
+            vnp_TransactionStatus: transactionStatus,
+            vnp_TxnRef: txnRef,
+            vnp_Amount: amount || '0',
+            vnp_SecureHash: secureHash || '',
+            vnp_OrderInfo: orderInfo || '',
+          }
         });
 
         if (result.success && result.status === 'completed') {

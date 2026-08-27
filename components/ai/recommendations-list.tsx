@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.xs,
   },
   cardWrapper: {
-    height: '100%',
+    height: 390,
     ...Platform.select({
       web: {
         transition: 'transform 0.2s ease',

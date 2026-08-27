@@ -120,6 +120,16 @@ export default function AIChatMobile({ user, convexUser }: AIChatMobileProps) {
         text: msg.text,
         isUser: msg.isUser,
         timestamp: new Date(msg.timestamp).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+        recommendations: (msg.recommendations || []).map((rec: any) => ({
+          id: rec.id || rec._id || `rec-${Date.now()}-${Math.random()}`,
+          name: rec.name,
+          type: rec.type,
+          location: rec.location || '',
+          price: rec.price,
+          rating: rec.rating,
+          image: rec.image,
+          description: rec.description,
+        })),
       }));
       setMessages(transformedMessages);
     } else if (!currentConversationId && messages.length === 0) {
@@ -215,7 +225,7 @@ export default function AIChatMobile({ user, convexUser }: AIChatMobileProps) {
         isUser: false,
         timestamp: new Date(response.message.timestamp).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
         recommendations: response.recommendations?.map((rec: any) => ({
-          id: rec.id,
+          id: rec.id || rec._id || `rec-${Date.now()}-${Math.random()}`,
           name: rec.name,
           type: rec.type,
           location: rec.location || '',
